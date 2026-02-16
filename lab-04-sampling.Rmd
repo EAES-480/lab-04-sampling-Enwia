@@ -1,7 +1,7 @@
 ---
 title: "Lab 04 — Sampling from Time Series"
 author: "EAES 480 Dylan Enwia — Modern Statistics in Earth & Environmental Science"
-date: "`r format(Sys.Date(), '2, 16, 2026')`"
+date: "`r format(Sys.Date(), '2 16 2026')`"
 output:
   html_document:
     theme: cosmo
