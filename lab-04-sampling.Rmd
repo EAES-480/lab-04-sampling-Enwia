@@ -1,7 +1,7 @@
 ---
 title: "Lab 04 — Sampling from Time Series"
-author: "EAES 480 — Modern Statistics in Earth & Environmental Science"
-date: "`r format(Sys.Date(), '%B %d, %Y')`"
+author: "EAES 480 Dylan Enwia — Modern Statistics in Earth & Environmental Science"
+date: "`r format(Sys.Date(), '2, 16, 2026')`"
 output:
   html_document:
     theme: cosmo
@@ -78,10 +78,10 @@ df <- df %>%
   mutate(
     # TODO: create a Date column from year_local and doy
     # HINT: Jan 1 is DOY = 1, so use (doy - 1) with origin = "YYYY-01-01"
-    date = as.Date(___ - 1, origin = paste0(___, "-01-01")),
+    date = as.Date(doy - 1, origin = paste0(year_local, "-01-01")),
 
     # TODO: create a month column (numeric 1–12 or labeled months)
-    month = month(___, label = TRUE, abbr = TRUE),
+    month = month(date, label = TRUE, abbr = TRUE),
 
     # TODO: make a day/night label using daytime (0/1)
     day_night = if_else(daytime == 1, "Day", "Night")
@@ -104,14 +104,14 @@ Examples you can choose from (depending on what you see in the dataset):
 
 ```{r choose_response, echo=TRUE, eval=FALSE}
 # TODO: choose ONE response variable (a column name as a string)
-response_var <- "gpp"   # replace "gpp" with your choice, e.g. "fc" or "le" or "ta"
+response_var <- "ta"   # replace "gpp" with your choice, e.g. "fc" or "le" or "ta"
 
 # CHECK: print a quick summary
 df %>% summarise(
   n = n(),
-  n_missing = sum(is.na(____)),
-  mean = mean(____, na.rm = TRUE),
-  sd = sd(____, na.rm = TRUE)
+  n_missing = sum(is.na(ta)),
+  mean = mean(ta, na.rm = TRUE),
+  sd = sd(ta, na.rm = TRUE)
 )
 ```
 
@@ -130,11 +130,11 @@ Fill in at least **5 variables** from this dataset:
 
 | Variable | Units | Description | Expected sign/seasonality? |
 |----------|-------|-------------|----------------------------|
-|          |       |             |                            |
-|          |       |             |                            |
-|          |       |             |                            |
-|          |       |             |                            |
-|          |       |             |                            |
+| PA | kPA |Atmospheric pressure|                            |
+| TA | deg C |Air Temperature |                            |
+| D_SNOW | cm | Snow depth  |                            |
+| SLE |	W m-2 | Latent heat (LE) storage flux |              |
+| SAP_FLOW |mmolH2O m-2 s-1 |Sap Flow|                 |
 
 ---
 
