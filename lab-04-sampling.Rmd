@@ -11,6 +11,9 @@ output:
     toc_float: true
     code_folding: hide
     df_print: paged
+  pdf_document:
+    toc: true
+    toc_depth: '3'
 editor_options:
   chunk_output_type: inline
 ---
@@ -120,7 +123,7 @@ df %>% summarise(
 
 **Prompt (2–3 sentences):** Why did you choose this response variable? What do you expect its seasonality/day–night pattern to be?
 
-> *Write your answer here.*
+> *I chose air temperature as my response variable because I think it controls many flux variables and is easy to interpret. I would expect its seasonality/day-night pattern to be having higher daytime temperatures and cooler nighttime temperatures and a seasonal cycle with a very cold winter and hot summer.*
 
 ---
 
@@ -133,11 +136,11 @@ Fill in at least **5 variables** from this dataset:
 
 | Variable | Units | Description | Expected sign/seasonality? |
 |----------|-------|-------------|----------------------------|
-| PA | kPA |Atmospheric pressure|                            |
-| TA | deg C |Air Temperature |                            |
-| D_SNOW | cm | Snow depth  |                            |
-| SLE |	W m-2 | Latent heat (LE) storage flux |              |
-| SAP_FLOW |mmolH2O m-2 s-1 |Sap Flow|                 |
+| PA | kPA |Atmospheric pressure|No expected sign/seasonality|
+| TA | deg C |Air Temperature | High seasonality (cold in winter and warm in summer)|
+| D_SNOW | cm | Snow depth  |High in winter seasons|
+| SLE |	W m-2 | Latent heat (LE) storage flux |Seasonal cycle (higher in growing season)|
+| SAP_FLOW |mmolH2O m-2 s-1 |Sap Flow|Seasonal (higher in growing season)|
 
 ---
 
@@ -164,7 +167,7 @@ df %>%
 
 **Prompt (2–3 sentences):** What major patterns do you see? (Seasonal cycle? Daily cycle? Outliers?)
 
-> *Write your answer here.*
+> *Major patterns I see is that temperatures are lowest in the winter and highest in the summer. We can see for the daily cycle that values rise during the day and fall at night. Outliers I see for example would be any sharp spikes or gaps that could reflect from remaining missing data points.*
 
 ---
 
@@ -187,7 +190,7 @@ ggplot(df, aes(x = df[[response_var]])) +
 
 **Prompt:** Describe shape (skew, modality), center, and spread.
 
-> *Write your answer here.*
+> *The distribution shows its bimodal so we can see a separation between winter and summer conditions. The center shows to be around (10-15 Celsius) for the annual average. And also we can see a large spread which shows a high seasonal variability due to higher cold and hot temperature values. *
 
 ---
 
@@ -216,7 +219,7 @@ df %>%
 
 **Prompt (3–4 sentences):** Which grouping variable (month or day/night) seems to explain more variability in your response? Why?
 
-> *Write your answer here.*
+> *I would say the month grouping variable explains more variability in air temperatures because seasonal temperature range between winter to summer is higher than a day to night change. The monthly box plots show a strong seasonal variability when compared to the day/night box plots. We can see this by increasing values starting at 0 Celsius in winter and going to 20 Celsius in the summer then decreasing again into the fall and winter while in the day/night box plot we are seeing an overlap between the day and night groups.*
 
 ---
 
@@ -264,7 +267,7 @@ tibble(
 
 **Prompt (2–3 sentences):** How close is your one-sample estimate to the population mean/SD? Is the difference surprising?
 
-> *Write your answer here.*
+> *The one-sample estimate and the population mean/sd are very close with a small difference. The difference does not surprise me at all because we have a large sample size which should closely approximate the population mean/sd.*
 
 ---
 
@@ -297,7 +300,7 @@ ggplot(tibble(mean_est = means), aes(mean_est)) +
 
 **Prompt (2–3 sentences):** Is the sampling distribution centered on the population mean? What happens if you increase `n_samp`?
 
-> *Write your answer here.*
+> *Yes the sampling distribution is centered on the population mean. If you increase n_samp the sampling distribution would start to become narrower or smaller due to a reduction in standard error.*
 
 ---
 
@@ -346,7 +349,7 @@ tibble(
 
 **Prompt (3–4 sentences):** Which strategy better approximated the population mean and SD for your response variable? Why might stratification help (or not) here?
 
-> *Write your answer here.*
+> *I would say the stratified by month strategy would better approximate the population mean and SD for air temperature. I say this because its pretty much almost identical to the population mean and SD. The SRS mean on the other hand is farther from the population values. Stratification can help here because we saw temperature have a strong seasonal variability and when sampling evenly within each month we can ensure that all seasons can be represented properly.*
 
 ---
 
@@ -359,7 +362,7 @@ Answer in **4–6 sentences**:
 - In EAES field studies, when is stratification essential?
 - What is one trade-off of stratified sampling?
 
-> *Write your answer here.*
+> *Seasonality matters for sampling because the seasonlity mean and variability changes through the year so sampling has to represent every season to measure it properly. If sampling ignores latent grouping variables like for example month or day/night it can over estimate certain times like winter nights or summer afternoons and from this we can result in biased estimations in the mean and SD. Straftification is essential in EAES field studies because conditions often change for example we can look at a wet vs dry season, land cover types, growing vs non-growing season, and etc, so we need each variable to be properly represented. The one trade-off stratified sampling is that it can be very complex and costly in a study.*
 
 ---
 
@@ -393,7 +396,7 @@ All exercises below should run using the same objects from Part I:
 ```{r systematic_sampling, echo=TRUE, eval=FALSE}
 # GOAL: Create a systematic sample and compare mean/sd to population.
 # TODO: choose an interval k (try 48, 24, 96).
-k <- ___
+k <- 48
 
 sys_samp <- df %>%
   # TODO: keep only non-missing response values
@@ -414,7 +417,7 @@ tibble(
 **Prompt (3–4 sentences):** Did systematic sampling approximate the population mean/SD better or worse than SRS?  
 What cycle (daily or seasonal) might be interacting with your chosen `k`?
 
-> *Write your answer here.*
+> *The systematic sampling approximated very well for the population mean. For the SD it was worse it was higher in the systematic sampling so it didn't approximate the population SD as well as the SRS. I think the daily cycle is interacting with my chosen `k`. *
 
 ---
 
@@ -429,7 +432,7 @@ This mimics EAES logistics: you may only be able to sample on certain days.
 # TODO: choose number of days to sample.
 set.seed(480)
 
-n_days <- ___
+n_days <- 30
 
 days <- df %>%
   distinct(date) %>%
@@ -456,7 +459,7 @@ tibble(
 **Prompt (3–4 sentences):** Why might cluster sampling have **higher variance** than SRS for the same number of measurements?  
 What feature of time series data (hint: autocorrelation) is relevant here?
 
-> *Write your answer here.*
+> *Cluster sampling can have higher variance than SRS because observations within the same day are similar due to autocorrelation. Even though since the sample size is large (n = 1332) much of that information is inessential because the values from each selected day are correlated. This explains why cluster sampling may perform worse than SRS for estimating population mean/SD.*
 
 ---
 
@@ -469,7 +472,7 @@ This mimics continuous instrumentation that logs at a lower frequency (e.g., hou
 ```{r quasi_continuous, echo=TRUE, eval=FALSE}
 # GOAL: Create a regular subsampled time series.
 # TODO: choose a step size (every 2 records = hourly; every 4 = 2-hourly).
-step <- ___
+step <- 2
 
 qc_samp <- df %>%
   filter(!is.na(.data[[response_var]])) %>%
@@ -493,14 +496,14 @@ tibble(
 # HINT: filter to one month to avoid overplotting.
 
 df %>%
-  filter(month == ___) %>%   # e.g., "Jul" if month is labeled
+  filter(month == "May") %>%   # e.g., "Jul" if month is labeled
   ggplot(aes(x = date, y = .data[[response_var]])) +
   geom_line(alpha = 0.25) +
   theme_classic(base_size = 18) +
   labs(title = "Population time series (subset)", x = NULL, y = response_var)
 
 qc_samp %>%
-  filter(month == ___) %>%
+  filter(month == "May") %>%
   ggplot(aes(x = date, y = .data[[response_var]])) +
   geom_line(alpha = 0.6) +
   theme_classic(base_size = 18) +
@@ -510,7 +513,7 @@ qc_samp %>%
 **Prompt (3–4 sentences):** Does quasi-continuous sampling preserve the **seasonal** pattern? The **daily** pattern?  
 In an EAES context, when is quasi-continuous sampling preferable to sparse discrete sampling?
 
-> *Write your answer here.*
+> *The quasi-continuous sampling preserves daily pattern. We can see the quasi-continuous sampling mean/SD and the population mean/SD are nearly identical. In an EAES context, quasi-continuous sampling is preferable when you want to gather a continuous record of data like daily cycles for example. I think it is more informative than sparse discrete sampling because its keeps the timing more efficiently of a process of data that you want to study.*
 
 ---
 
@@ -548,7 +551,7 @@ bind_rows(
 Explain *why* in terms of (i) seasonal/diurnal structure and (ii) dependence/autocorrelation.  
 If you were designing a real EAES study with limited field days, what hybrid strategy would you propose (e.g., stratified + clustered)?
 
-> *Write your answer here.*
+> *The strategy that best estimated the population mean was the Stratified (month). The strategy that best estimated the population SD was also the Stratified (month). SRS performed reasonably well but showed slightly more deviation, while Systematic sampling overestimated variability and Cluster sampling showed the largest deviation in the mean. These differences showed a strong seasonal/diurnal structure of temperature, as well as autocorrelation in the time series data due to cluster sampling performing worse because observations collected within the same day were highly correlated which means they are dependent. If I was designing a real EAES study with limited field days, a strong hybrid approach would be stratified and clustered strategies. I would select days within a season or month to ensure seasonal coverage and sample thoroughly within those selected days to accurately capture daily variability.*
 
 ---
 
