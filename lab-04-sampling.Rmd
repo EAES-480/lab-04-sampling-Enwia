@@ -29,6 +29,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+> GM GRADE 10/10 - outstanding work!
+
 # Overview
 
 ## What is AmeriFlux?
@@ -220,6 +222,8 @@ df %>%
 **Prompt (3–4 sentences):** Which grouping variable (month or day/night) seems to explain more variability in your response? Why?
 
 > *I would say the month grouping variable explains more variability in air temperatures because seasonal temperature range between winter to summer is higher than a day to night change. The monthly box plots show a strong seasonal variability when compared to the day/night box plots. We can see this by increasing values starting at 0 Celsius in winter and going to 20 Celsius in the summer then decreasing again into the fall and winter while in the day/night box plot we are seeing an overlap between the day and night groups.*
+
+> GM: Excellent reasoning — month explains far more variability than day/night because of the strong seasonal temperature range.
 
 ---
 
